@@ -20,6 +20,7 @@ libpath = os.path.join(os.path.dirname(__file__), libname)
 lib = ctypes.cdll.LoadLibrary(libpath)
 
 def XbSymbolScan(xbe):
+	assert(xbe[0:4] == b'XBEH'), 'Invalid XBE header'
 	symbols = []
 	cb_wrap = ctypes.CFUNCTYPE(None, ctypes.c_char_p, ctypes.c_uint32, ctypes.c_char_p, ctypes.c_uint32, ctypes.c_uint32)
 	def cb(library_str, library_flag, symbol_str, address, build_verison):
