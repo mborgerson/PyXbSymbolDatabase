@@ -1,0 +1,3 @@
+[submodule "XbSymbolDatabase/XbSymbolDatabase"]
+	path = XbSymbolDatabase/XbSymbolDatabase
+	url = https://github.com/mborgerson/XbSymbolDatabase
