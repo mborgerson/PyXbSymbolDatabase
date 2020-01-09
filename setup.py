@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 import os
 import os.path
+import platform
+import shutil
 import subprocess
 from setuptools import setup
 from setuptools.command.build_py import build_py
 
 SOURCE_DIR = os.path.abspath(os.path.dirname(__file__))
-LIB_SOURCE_DIR = os.path.join(SOURCE_DIR, 'XbSymbolDatabase/XbSymbolDatabase')
+LIB_SOURCE_DIR = os.path.join(SOURCE_DIR, 'XbSymbolDatabase', 'XbSymbolDatabase')
 OUTPUT_DIR = os.path.join(SOURCE_DIR, 'XbSymbolDatabase')
 
 class custom_build(build_py):
@@ -24,6 +26,13 @@ class custom_build(build_py):
 			os.makedirs(OUTPUT_DIR)
 		subprocess.check_call(['cmake', '.'] + cmake_args, cwd=LIB_SOURCE_DIR)
 		subprocess.check_call(['cmake', '--build', '.'], cwd=LIB_SOURCE_DIR)
+
+		# Windows does things a little differently...
+		if platform.system() == 'Windows':
+			src = os.path.join(LIB_SOURCE_DIR, 'Debug', 'XbSymbolDatabase.dll')
+			dest = os.path.join(OUTPUT_DIR, 'libXbSymbolDatabase.dll')
+			shutil.copyfile(src, dest)
+
 		return super().run()
 
 with open('README.md') as f:

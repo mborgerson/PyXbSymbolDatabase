@@ -11,7 +11,7 @@ jobs:
       with:
         fetch-depth: 1
 
-    - name: Checkout submodules
+    - name: Checkout Submodules
       shell: bash
       run: |
         git submodule update --init --recursive --depth=1
@@ -23,3 +23,55 @@ jobs:
     - name: Install
       run: |
         python3 -m pip install --user .
+
+    - name: Run Tests
+      run: |
+        mkdir tmp; cd tmp; python3 -c "import XbSymbolDatabase"
+
+  Windows:
+    runs-on: windows-latest
+    steps:
+    - name: Clone Tree
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Checkout Submodules
+      run: |
+        git submodule update --init --recursive --depth=1
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install -U pip setuptools
+
+    - name: Install
+      run: |
+        python -m pip install --user --verbose .
+
+    - name: Run Tests
+      run: |
+        mkdir tmp; cd tmp; python -c "import XbSymbolDatabase"
+
+  macOS:
+    runs-on: macOS-latest
+    steps:
+    - name: Clone Tree
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Checkout Submodules
+      run: |
+        git submodule update --init --recursive --depth=1
+
+    - name: Install Dependencies
+      run: |
+        python3 -m pip install -U pip setuptools
+
+    - name: Install
+      run: |
+        python3 -m pip install --user --verbose .
+
+    - name: Run Tests
+      run: |
+        mkdir tmp; cd tmp; python3 -c "import XbSymbolDatabase"
